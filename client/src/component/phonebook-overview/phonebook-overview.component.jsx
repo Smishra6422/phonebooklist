@@ -41,7 +41,7 @@ class PhonebookOverview extends React.Component {
       <MDBContainer>
         <div className="form-group">
           <input
-            type="search"
+            type="Search Phonebook List"
             className="form-control"
             id="formGroupExampleInput"
             onChange={this.handleChange}
