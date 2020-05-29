@@ -4,13 +4,16 @@ import FormContainer from "../form/form.component";
 import { fetchAddPhonebookListStart } from "../redux/phonebook/phonebook-action";
 import "./add-phonebook.style.scss";
 
-const AddPhonebookList = ({ fetchAddPhonebookListStart }) => {
+const AddPhonebookList = ({ fetchAddPhonebookListStart, history }) => {
   return (
     <div className="phonebook-container">
       <div className="phonebook-heading">
         <h3 style={{ marginTop: "0" }}>RM-PHONEBOOK</h3>
       </div>
-      <FormContainer fetchAddPhonebookListStart={fetchAddPhonebookListStart} />
+      <FormContainer
+        fetchAddPhonebookListStart={fetchAddPhonebookListStart}
+        history={history}
+      />
     </div>
   );
 };

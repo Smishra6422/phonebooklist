@@ -16,6 +16,7 @@ class FormContainer extends React.Component {
   handleSubmit = (values) => {
     if (this.props.update) {
       this.props.updatePhonebookLists({
+        history: this.props.history,
         _id: this.props.match.params.id,
         name: values.name,
         dob: values.dob,
@@ -26,6 +27,7 @@ class FormContainer extends React.Component {
       });
     } else {
       this.props.fetchAddPhonebookListStart({
+        history: this.props.history,
         name: values.name,
         dob: values.dob,
         mobile: values.mobile,
@@ -37,7 +39,8 @@ class FormContainer extends React.Component {
   };
 
   render() {
-    const { phonebookLists, match, update } = this.props;
+    const { phonebookLists, match, update, history } = this.props;
+    console.log(history);
     let singlePhonebook = "";
     if (phonebookLists) {
       singlePhonebook = phonebookLists.find(

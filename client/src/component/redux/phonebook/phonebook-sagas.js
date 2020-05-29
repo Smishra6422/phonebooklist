@@ -30,12 +30,13 @@ export function* fetchPhonebookListAsync() {
 
 export function* fetchAddPhonebookAsync({ payload }) {
   try {
-    console.log(payload);
-    const fetchResult = yield call(axios.post, "/api/addphonebook", payload);
-    console.log(fetchResult.data);
+    // console.log(payload);
+    const { history, ...otherProps } = payload;
+    const fetchResult = yield call(axios.post, "/api/addphonebook", otherProps);
+    // console.log(fetchResult.data);
 
     //TODO Handle Error and Alert it ...
-
+    yield call(history.push, "/");
     yield put(fetchAddPhonebookListSuccess());
     yield put(actions.reset("phonebook"));
   } catch (error) {
@@ -45,12 +46,12 @@ export function* fetchAddPhonebookAsync({ payload }) {
 
 export function* fetchDeletePhonebookAsync({ payload }) {
   try {
-    console.log(payload);
+    // console.log(payload);
     const fetchResult = yield call(
       axios.post,
       "/api/deletephonebook/" + payload
     );
-    console.log(fetchResult.data);
+    // console.log(fetchResult.data);
 
     //TODO Handle Error and Alert it ...
 
@@ -63,7 +64,7 @@ export function* fetchDeletePhonebookAsync({ payload }) {
 
 export function* fetchUpdatePhonebookAsync({ payload }) {
   try {
-    const { _id, ...otherProps } = payload;
+    const { history, _id, ...otherProps } = payload;
     const fetchResult = yield call(
       axios.post,
       "/api/updatephonebook/" + _id,
@@ -72,6 +73,7 @@ export function* fetchUpdatePhonebookAsync({ payload }) {
 
     //TODO Handle Error and Alert it ...
 
+    yield call(history.push, "/");
     yield put(fetchUpdatePhonebookListSuccess());
     yield put(actions.reset("phonebook"));
   } catch (error) {

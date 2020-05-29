@@ -20,6 +20,7 @@ const UpdatePhonebookList = ({
   isFetchingphonebook,
   fetchUpdatePhonebookListStart,
   match,
+  history,
 }) => {
   useEffect(() => {
     fetchPhonebookListStart();
@@ -45,6 +46,7 @@ const UpdatePhonebookList = ({
           phonebookLists={selectPhonebookList}
           updatePhonebookLists={fetchUpdatePhonebookListStart}
           match={match}
+          history={history}
           update
         />
       )}
