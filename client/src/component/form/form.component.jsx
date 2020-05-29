@@ -2,10 +2,8 @@ import React from "react";
 import { Button, Row, Col, Label } from "reactstrap";
 
 import { Control, Form, Errors } from "react-redux-form";
-// import { Link } from "react-router-dom";
 
 import "./form.style.scss";
-// import PhonebookLists from "../phonebook-lists/phonebook-lists.component";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -16,9 +14,6 @@ const validEmail = (val) =>
 
 class FormContainer extends React.Component {
   handleSubmit = (values) => {
-    console.log("Current State is: " + JSON.stringify(values));
-    alert("Current State is: " + JSON.stringify(values));
-
     if (this.props.update) {
       this.props.updatePhonebookLists({
         _id: this.props.match.params.id,

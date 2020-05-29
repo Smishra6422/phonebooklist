@@ -6,6 +6,7 @@ import { actions } from "react-redux-form";
 import { phonebookTypes } from "./phonebook-types";
 
 import {
+  fetchPhonebookListStart,
   fetchPhonebookListSuccess,
   fetchPhonebookListFailure,
   fetchAddPhonebookListSuccess,
@@ -22,14 +23,6 @@ export function* fetchPhonebookListAsync() {
     const phonebook = yield fetchResult.data;
 
     yield put(fetchPhonebookListSuccess(phonebook.phonebooks));
-
-    //Plying with redux-form
-    // yield put(
-    //   actions.change("phonebook", {
-    //     name: "Shubham",
-    //     email: "Gmail.com",
-    //   })
-    // );
   } catch (error) {
     yield put(fetchPhonebookListFailure(error));
   }
@@ -62,6 +55,7 @@ export function* fetchDeletePhonebookAsync({ payload }) {
     //TODO Handle Error and Alert it ...
 
     yield put(fetchDeletePhonebookListSuccess());
+    yield call(fetchPhonebookListRestart);
   } catch (error) {
     yield put(fetchDeletePhonebookListFailure(error));
   }
@@ -79,64 +73,21 @@ export function* fetchUpdatePhonebookAsync({ payload }) {
     //TODO Handle Error and Alert it ...
 
     yield put(fetchUpdatePhonebookListSuccess());
-    // yield put(actions.reset("phonebook"));
+    yield put(actions.reset("phonebook"));
   } catch (error) {
     yield put(fetchUpdatePhonebookListFailure(error));
   }
 }
 
-// export function* fetchRejectedJobAsync() {
-//   try {
-//     const fetchResult = yield call(axios, "/user/getrejectjob");
-//     const Jobs = yield fetchResult.data;
-//     yield put(fetchRejectedJobSuccess(Jobs));
-//   } catch (error) {
-//     yield put(fetchRejectedJobFailure(error));
-//   }
-// }
+export function* fetchPhonebookListRestart() {
+  try {
+    yield put(fetchPhonebookListStart());
+  } catch (error) {
+    yield put(fetchPhonebookListFailure(error));
+  }
+}
 
-// export function* fetchLiveJobRestart() {
-//   try {
-//     yield put(fetchLiveJobStart());
-//   } catch (error) {
-//     yield put(fetchLiveJobFailure(error));
-//   }
-// }
-
-// export function* addAcceptedJobAsync({ payload }) {
-//   try {
-//     const fetchResult = yield call(axios.post, "/admin/addacceptjob", payload);
-//     // console.log(fetchResult);
-
-//     if (fetchResult.data.errmsg) {
-//       alert("This Job is already exists");
-//     } else {
-//       alert(fetchResult.data + " Job Added to Accecpted Category !");
-//     }
-//     // yield call(fetchLiveJobRestart);
-//   } catch (error) {
-//     alert(error);
-//   }
-// }
-
-// export function* addRejectedJobAsync({ payload }) {
-//   try {
-//     const fetchResult = yield call(axios.post, "/admin/addrejectjob", payload);
-//     // console.log(fetchResult);
-
-//     if (fetchResult.data.errmsg) {
-//       alert("This Job is already exists");
-//     } else {
-//       alert(fetchResult.data + " Job Added to Rejected Category !");
-//     }
-
-//     // yield call(fetchLiveJobRestart);
-//   } catch (error) {
-//     alert(error);
-//   }
-// }
-
-export function* fetchPhonebookListStart() {
+export function* fetchPhonebookListStarts() {
   yield takeLatest(
     phonebookTypes.FETCH_PHONEBOOK_LIST_START,
     fetchPhonebookListAsync
@@ -164,24 +115,11 @@ export function* fetchUpdatePhonebookStart() {
   );
 }
 
-// export function* fetchRejectedJobStarts() {
-//   yield takeLatest(jobTypes.FETCH_REJECTED_JOB_START, fetchRejectedJobAsync);
-// }
-
-// export function* addAcceptedJobStart() {
-//   yield takeLatest(jobTypes.ADD_ACCEPTED_JOB_START, addAcceptedJobAsync);
-// }
-
-// export function* addRejectedJobStart() {
-//   yield takeLatest(jobTypes.ADD_REJECTED_JOB_START, addRejectedJobAsync);
-// }
-
 export function* jobSaga() {
   yield all([
-    call(fetchPhonebookListStart),
+    call(fetchPhonebookListStarts),
     call(fetchAddPhonebookStart),
     call(fetchDeletePhonebookStart),
     call(fetchUpdatePhonebookStart),
-    // call(addRejectedJobStart),
   ]);
 }

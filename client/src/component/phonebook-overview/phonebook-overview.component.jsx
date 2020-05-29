@@ -15,6 +15,7 @@ import {
   MDBRow,
   MDBBtn,
 } from "mdbreact";
+import "./phonebook-overview.style.scss";
 
 class PhonebookOverview extends React.Component {
   constructor(props) {
@@ -51,9 +52,10 @@ class PhonebookOverview extends React.Component {
 
     return (
       <MDBContainer>
-        <div className="form-group">
+        <div className="form-group searchBar">
           <input
-            type="Search Phonebook List"
+            type="search"
+            placeholder="Search Phonebook List"
             className="form-control"
             id="formGroupExampleInput"
             onChange={this.handleChange}
@@ -111,14 +113,33 @@ class PhonebookOverview extends React.Component {
                     <div className="mobile-email-container">
                       <MDBRow>
                         <MDBCol md="4">
-                          <p>{phonebook.mobile}</p>
-                          <p>{phonebook.alternate_mobile}</p>
+                          <p>
+                            <i class="fa fa-mobile"></i>
+                            {phonebook.mobile}
+                          </p>
+                          <p>
+                            {phonebook.alternate_mobile ? (
+                              <i class="fa fa-mobile"></i>
+                            ) : (
+                              ""
+                            )}
+                            {phonebook.alternate_mobile}
+                          </p>
                         </MDBCol>
-                        <MDBCol md="4">
-                          <p>{phonebook.email}</p>
-                          <p>{phonebook.alternate_email}</p>
+                        <MDBCol md="8">
+                          <p>
+                            <i class="fa fa-envelope"></i>
+                            {phonebook.email}
+                          </p>
+                          <p>
+                            {phonebook.alternate_email ? (
+                              <i class="fa fa-envelope"></i>
+                            ) : (
+                              ""
+                            )}
+                            {phonebook.alternate_email}
+                          </p>
                         </MDBCol>
-                        <MDBCol md="4"></MDBCol>
                       </MDBRow>
                     </div>
                   </MDBCardBody>

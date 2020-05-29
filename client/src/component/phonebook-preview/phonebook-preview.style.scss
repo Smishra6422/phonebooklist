@@ -23,3 +23,24 @@
     }
   }
 }
+
+.list-pagination-container {
+  width: 100%;
+
+  .paginations {
+    width: 100%;
+
+    ul {
+      margin: 0;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+
+      li a {
+        margin-left: 0.6rem;
+        padding: 8px;
+        border: 1px solid #4285f4;
+      }
+    }
+  }
+}

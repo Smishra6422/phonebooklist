@@ -5,10 +5,8 @@ import {
   MDBNavbarBrand,
   MDBNavbarNav,
   MDBNavItem,
-  MDBNavLink,
   MDBNavbarToggler,
   MDBCollapse,
-  MDBIcon,
 } from "mdbreact";
 import { BrowserRouter as Router } from "react-router-dom";
 
@@ -26,29 +24,21 @@ class Header extends Component {
       <Router>
         <MDBNavbar color="default-color" dark expand="md">
           <MDBNavbarBrand>
-            <strong className="white-text">Navbar</strong>
+            <strong className="white-text">
+              <a href="/">Phonebook</a>
+            </strong>
           </MDBNavbarBrand>
           <MDBNavbarToggler onClick={this.toggleCollapse} />
           <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
             <MDBNavbarNav left>
               <MDBNavItem active>
-                <MDBNavLink to="/">Home</MDBNavLink>
+                <a href="/">Home</a>
               </MDBNavItem>
               <MDBNavItem>
-                <MDBNavLink to="/addphonebook">Add Phonebook</MDBNavLink>
-              </MDBNavItem>
-            </MDBNavbarNav>
-
-            <MDBNavbarNav right>
-              <MDBNavItem>
-                <MDBNavLink className="waves-effect waves-light" to="#!">
-                  <MDBIcon fab icon="twitter" />
-                </MDBNavLink>
+                <a href="/addphonebook">Add Phonebook</a>
               </MDBNavItem>
               <MDBNavItem>
-                <MDBNavLink className="waves-effect waves-light" to="#!">
-                  <MDBIcon fab icon="google-plus-g" />
-                </MDBNavLink>
+                <a href="/aboutus">About Us</a>
               </MDBNavItem>
             </MDBNavbarNav>
           </MDBCollapse>

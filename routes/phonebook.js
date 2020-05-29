@@ -14,9 +14,6 @@ const phonebookValidator = [
     .isLength({ min: 3 })
     .withMessage("Name should be atleast 3 character long!"),
   check("email").isEmail().withMessage("Please provide a valid email"),
-  check("mobile")
-    .isMobilePhone()
-    .withMessage("Please provide a valid phone number"),
 ];
 
 router.param("phonebookId", getPhonebookById);
