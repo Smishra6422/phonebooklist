@@ -133,21 +133,11 @@ class FormContainer extends React.Component {
                     name="alternate_mobile"
                     placeholder="Enter Alternate Mobile Number"
                     className="form-control"
-                    validators={{
-                      minLength: minLength(3),
-                      maxLength: maxLength(15),
-                      isNumber,
-                    }}
-                  />
-                  <Errors
-                    className="text-danger"
-                    model=".alternate_mobile"
-                    show="touched"
-                    messages={{
-                      minLength: "Must be greater than 2 numbers",
-                      maxLength: "Must be 15 numbers or less",
-                      isNumber: "Must be a number",
-                    }}
+                    // validators={{
+                    //   minLength: minLength(3),
+                    //   maxLength: maxLength(15),
+                    //   isNumber,
+                    // }}
                   />
                 </Col>
               </Row>
@@ -191,18 +181,10 @@ class FormContainer extends React.Component {
                     name="alternate_email"
                     placeholder="Enter Your Email"
                     className="form-control"
-                    validators={{
-                      required,
-                      validEmail,
-                    }}
-                  />
-                  <Errors
-                    className="text-danger"
-                    model=".alternate_email"
-                    show="touched"
-                    messages={{
-                      validEmail: "Invalid Email Address",
-                    }}
+                    // validators={{
+                    //   required,
+                    //   validEmail,
+                    // }}
                   />
                 </Col>
               </Row>

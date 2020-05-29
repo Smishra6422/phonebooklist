@@ -31,14 +31,17 @@ const phonebookReducer = (state = INITIAL_STATE, action) => {
       };
 
     case phonebookTypes.FETCH_ADD_PHONEBOOK_LIST_START:
+    case phonebookTypes.FETCH_DELETE_PHONEBOOK_LIST_START:
       return {
         ...state,
       };
     case phonebookTypes.FETCH_ADD_PHONEBOOK_LIST_SUCCESS:
+    case phonebookTypes.FETCH_DELETE_PHONEBOOK_LIST_SUCCESS:
       return {
         ...state,
       };
     case phonebookTypes.FETCH_ADD_PHONEBOOK_LIST_FAILURE:
+    case phonebookTypes.FETCH_DELETE_PHONEBOOK_LIST_FAILURE:
       return {
         ...state,
         error: action.payload,

@@ -29,6 +29,20 @@ export const fetchAddPhonebookListFailure = (err) => ({
   payload: err,
 });
 
+export const fetchDeletePhonebookListStart = (id) => ({
+  type: phonebookTypes.FETCH_DELETE_PHONEBOOK_LIST_START,
+  payload: id,
+});
+
+export const fetchDeletePhonebookListSuccess = () => ({
+  type: phonebookTypes.FETCH_DELETE_PHONEBOOK_LIST_SUCCESS,
+});
+
+export const fetchDeletePhonebookListFailure = (err) => ({
+  type: phonebookTypes.FETCH_DELETE_PHONEBOOK_LIST_FAILURE,
+  payload: err,
+});
+
 // export const fetchRejectedJobStart = (data) => ({
 //   type: jobTypes.FETCH_REJECTED_JOB_START,
 //   payload: data,

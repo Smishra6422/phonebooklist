@@ -1,4 +1,10 @@
 import React from "react";
+import { connect } from "react-redux";
+import {
+  fetchDeletePhonebookListStart,
+  fetchAddPhonebookListStart,
+} from "../redux/phonebook/phonebook-action";
+
 import {
   MDBContainer,
   MDBCollapse,
@@ -30,7 +36,7 @@ class PhonebookOverview extends React.Component {
 
   render() {
     const { collapseID, searchFilter } = this.state;
-    const { phonebboLists } = this.props;
+    const { phonebboLists, fetchDeletePhonebookListStart } = this.props;
 
     const filteredPhonebookList = phonebboLists.filter((phonebook) =>
       phonebook.name.toLowerCase().includes(searchFilter.toLowerCase())
@@ -75,7 +81,14 @@ class PhonebookOverview extends React.Component {
                         <div className="button-container">
                           <MDBCol md="12">
                             <MDBBtn color="primary">Edit</MDBBtn>
-                            <MDBBtn color="danger">Delete</MDBBtn>
+                            <MDBBtn
+                              color="danger"
+                              onClick={() =>
+                                fetchDeletePhonebookListStart(phonebook._id)
+                              }
+                            >
+                              Delete
+                            </MDBBtn>
                           </MDBCol>
                         </div>
                       </MDBCol>
@@ -106,4 +119,9 @@ class PhonebookOverview extends React.Component {
   }
 }
 
-export default PhonebookOverview;
+const mapDispatchToProps = (dispatch) => ({
+  fetchDeletePhonebookListStart: (id) =>
+    dispatch(fetchDeletePhonebookListStart(id)),
+});
+
+export default connect(null, mapDispatchToProps)(PhonebookOverview);

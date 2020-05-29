@@ -8,6 +8,8 @@ import {
   fetchPhonebookListFailure,
   fetchAddPhonebookListSuccess,
   fetchAddPhonebookListFailure,
+  fetchDeletePhonebookListSuccess,
+  fetchDeletePhonebookListFailure,
 } from "./phonebook-action";
 
 export function* fetchPhonebookListAsync() {
@@ -32,6 +34,23 @@ export function* fetchAddPhonebookAsync({ payload }) {
     yield put(fetchAddPhonebookListSuccess());
   } catch (error) {
     yield put(fetchAddPhonebookListFailure(error));
+  }
+}
+
+export function* fetchDeletePhonebookAsync({ payload }) {
+  try {
+    console.log(payload);
+    const fetchResult = yield call(
+      axios.post,
+      "/api/deletephonebook/" + payload
+    );
+    console.log(fetchResult.data);
+
+    //TODO Handle Error and Alert it ...
+
+    yield put(fetchDeletePhonebookListSuccess());
+  } catch (error) {
+    yield put(fetchDeletePhonebookListFailure(error));
   }
 }
 
@@ -100,6 +119,13 @@ export function* fetchAddPhonebookStart() {
   );
 }
 
+export function* fetchDeletePhonebookStart() {
+  yield takeLatest(
+    phonebookTypes.FETCH_DELETE_PHONEBOOK_LIST_START,
+    fetchDeletePhonebookAsync
+  );
+}
+
 // export function* fetchRejectedJobStarts() {
 //   yield takeLatest(jobTypes.FETCH_REJECTED_JOB_START, fetchRejectedJobAsync);
 // }
@@ -116,7 +142,7 @@ export function* jobSaga() {
   yield all([
     call(fetchPhonebookListStart),
     call(fetchAddPhonebookStart),
-    // call(fetchRejectedJobStarts),
+    call(fetchDeletePhonebookStart),
     // call(addAcceptedJobStart),
     // call(addRejectedJobStart),
   ]);
