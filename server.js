@@ -8,9 +8,10 @@ const cors = require("cors");
 const phonebookRoutes = require("./routes/phonebook");
 
 //DB Connection
-
+const MONGODB_URI =
+  "mongodb+srv://taskapp:MishrA6422@cluster0-fivla.mongodb.net/phonebook";
 mongoose
-  .connect(process.env.MONGODB_URI, {
+  .connect(MONGODB_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
