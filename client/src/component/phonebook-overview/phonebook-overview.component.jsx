@@ -4,6 +4,7 @@ import {
   fetchDeletePhonebookListStart,
   fetchAddPhonebookListStart,
 } from "../redux/phonebook/phonebook-action";
+import { withRouter } from "react-router-dom";
 
 import {
   MDBContainer,
@@ -36,12 +37,17 @@ class PhonebookOverview extends React.Component {
 
   render() {
     const { collapseID, searchFilter } = this.state;
-    const { phonebboLists, fetchDeletePhonebookListStart } = this.props;
+    const {
+      phonebboLists,
+      fetchDeletePhonebookListStart,
+      match,
+      history,
+    } = this.props;
 
     const filteredPhonebookList = phonebboLists.filter((phonebook) =>
       phonebook.name.toLowerCase().includes(searchFilter.toLowerCase())
     );
-    console.log(filteredPhonebookList);
+    console.log(match.path + "shubham");
 
     return (
       <MDBContainer>
@@ -80,7 +86,16 @@ class PhonebookOverview extends React.Component {
                       <MDBCol md="4">
                         <div className="button-container">
                           <MDBCol md="12">
-                            <MDBBtn color="primary">Edit</MDBBtn>
+                            <MDBBtn
+                              color="primary"
+                              onClick={() => {
+                                history.push(
+                                  match.path + "addphonebook/" + phonebook._id
+                                );
+                              }}
+                            >
+                              Edit
+                            </MDBBtn>
                             <MDBBtn
                               color="danger"
                               onClick={() =>
@@ -124,4 +139,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchDeletePhonebookListStart(id)),
 });
 
-export default connect(null, mapDispatchToProps)(PhonebookOverview);
+export default withRouter(connect(null, mapDispatchToProps)(PhonebookOverview));

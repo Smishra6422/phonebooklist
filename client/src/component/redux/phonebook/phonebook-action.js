@@ -43,27 +43,16 @@ export const fetchDeletePhonebookListFailure = (err) => ({
   payload: err,
 });
 
-// export const fetchRejectedJobStart = (data) => ({
-//   type: jobTypes.FETCH_REJECTED_JOB_START,
-//   payload: data,
-// });
+export const fetchUpdatePhonebookListStart = (phonebookData) => ({
+  type: phonebookTypes.FETCH_UPDATE_PHONEBOOK_LIST_START,
+  payload: phonebookData,
+});
 
-// export const fetchRejectedJobSuccess = (data) => ({
-//   type: jobTypes.FETCH_REJECTED_JOB_SUCCESS,
-//   payload: data,
-// });
+export const fetchUpdatePhonebookListSuccess = () => ({
+  type: phonebookTypes.FETCH_UPDATE_PHONEBOOK_LIST_SUCCESS,
+});
 
-// export const fetchRejectedJobFailure = (err) => ({
-//   type: jobTypes.FETCH_REJECTED_JOB_FAILURE,
-//   payload: err,
-// });
-
-// export const addAcceptedJobStart = (jobdata) => ({
-//   type: jobTypes.ADD_ACCEPTED_JOB_START,
-//   payload: jobdata,
-// });
-
-// export const addRejectedJobStart = (jobdata) => ({
-//   type: jobTypes.ADD_REJECTED_JOB_START,
-//   payload: jobdata,
-// });
+export const fetchUpdatePhonebookListFailure = (err) => ({
+  type: phonebookTypes.FETCH_UPDATE_PHONEBOOK_LIST_FAILURE,
+  payload: err,
+});

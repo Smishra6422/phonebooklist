@@ -1,6 +1,8 @@
 import { takeLatest, put, call, all } from "redux-saga/effects";
 import axios from "axios";
 
+import { actions } from "react-redux-form";
+
 import { phonebookTypes } from "./phonebook-types";
 
 import {
@@ -10,6 +12,8 @@ import {
   fetchAddPhonebookListFailure,
   fetchDeletePhonebookListSuccess,
   fetchDeletePhonebookListFailure,
+  fetchUpdatePhonebookListSuccess,
+  fetchUpdatePhonebookListFailure,
 } from "./phonebook-action";
 
 export function* fetchPhonebookListAsync() {
@@ -18,6 +22,14 @@ export function* fetchPhonebookListAsync() {
     const phonebook = yield fetchResult.data;
 
     yield put(fetchPhonebookListSuccess(phonebook.phonebooks));
+
+    //Plying with redux-form
+    // yield put(
+    //   actions.change("phonebook", {
+    //     name: "Shubham",
+    //     email: "Gmail.com",
+    //   })
+    // );
   } catch (error) {
     yield put(fetchPhonebookListFailure(error));
   }
@@ -32,6 +44,7 @@ export function* fetchAddPhonebookAsync({ payload }) {
     //TODO Handle Error and Alert it ...
 
     yield put(fetchAddPhonebookListSuccess());
+    yield put(actions.reset("phonebook"));
   } catch (error) {
     yield put(fetchAddPhonebookListFailure(error));
   }
@@ -51,6 +64,24 @@ export function* fetchDeletePhonebookAsync({ payload }) {
     yield put(fetchDeletePhonebookListSuccess());
   } catch (error) {
     yield put(fetchDeletePhonebookListFailure(error));
+  }
+}
+
+export function* fetchUpdatePhonebookAsync({ payload }) {
+  try {
+    const { _id, ...otherProps } = payload;
+    const fetchResult = yield call(
+      axios.post,
+      "/api/updatephonebook/" + _id,
+      otherProps
+    );
+
+    //TODO Handle Error and Alert it ...
+
+    yield put(fetchUpdatePhonebookListSuccess());
+    // yield put(actions.reset("phonebook"));
+  } catch (error) {
+    yield put(fetchUpdatePhonebookListFailure(error));
   }
 }
 
@@ -126,6 +157,13 @@ export function* fetchDeletePhonebookStart() {
   );
 }
 
+export function* fetchUpdatePhonebookStart() {
+  yield takeLatest(
+    phonebookTypes.FETCH_UPDATE_PHONEBOOK_LIST_START,
+    fetchUpdatePhonebookAsync
+  );
+}
+
 // export function* fetchRejectedJobStarts() {
 //   yield takeLatest(jobTypes.FETCH_REJECTED_JOB_START, fetchRejectedJobAsync);
 // }
@@ -143,7 +181,7 @@ export function* jobSaga() {
     call(fetchPhonebookListStart),
     call(fetchAddPhonebookStart),
     call(fetchDeletePhonebookStart),
-    // call(addAcceptedJobStart),
+    call(fetchUpdatePhonebookStart),
     // call(addRejectedJobStart),
   ]);
 }

@@ -5,9 +5,10 @@ import { createForms } from "react-redux-form";
 import { InitialPhonebookDetail } from "./form";
 
 const rootReducer = combineReducers({
-  phonebbok: phonebookReducer,
+  phonebookLists: phonebookReducer,
   ...createForms({
     phonebook: InitialPhonebookDetail,
+    // shubham: phonebookLists,
   }),
 });
 

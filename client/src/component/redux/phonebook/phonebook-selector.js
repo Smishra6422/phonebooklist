@@ -1,6 +1,6 @@
 import { createSelector } from "reselect";
 
-const selectPhonebook = (state) => state.phonebbok;
+const selectPhonebook = (state) => state.phonebookLists;
 
 export const selectPhonebookList = createSelector(
   [selectPhonebook],
