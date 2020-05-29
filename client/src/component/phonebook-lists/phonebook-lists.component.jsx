@@ -6,7 +6,7 @@ const PhonebookLists = () => {
   return (
     <div className="phonebook-container">
       <div className="phonebook-heading">
-        <h3>RM-PHONEBOOK</h3>
+        <h3 style={{ marginTop: "0" }}>RM-PHONEBOOK</h3>
       </div>
       <PhonebookPreview />
     </div>
