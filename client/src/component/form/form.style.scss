@@ -1,23 +1,8 @@
-// .phonebook-container {
-//   display: flex;
-//   flex-direction: column;
-//   left: 25%;
-//   width: 45rem;
-//   position: relative;
-//   border: 2px solid #4285f4;
-//   margin-top: 3rem;
-//   padding: 2rem;
+form {
+  display: flex;
+  flex-direction: column;
 
-//   .phonebook-heading {
-//     background: #4285f4;
-//     padding: 0.5rem 1rem;
-//     text-align: left;
-//     margin-bottom: 1rem;
-//   }
-
-//   form {
-//     position: relative;
-//     width: 80%;
-//     margin: auto;
-//   }
-// }
+  .form-group {
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,25 @@
+.spinner-container {
+  height: 21rem;
+  width: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .spinner-border {
+    height: 2.5rem !important;
+    width: 2.5rem !important;
+  }
+
+  & > p {
+    margin-top: 0.4rem;
+    font-size: 1.1rem;
+    color: #000;
+  }
+}
+
+@media (max-width: 47rem) {
+  .spinner-container {
+    height: 19rem;
+  }
+}

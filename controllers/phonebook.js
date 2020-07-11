@@ -39,10 +39,7 @@ exports.addPhonebookDetails = (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
-      res.status(400).json({
-        err: err.errmsg,
-      });
+      res.send({ err });
     });
 };
 
@@ -61,8 +58,8 @@ exports.updatePhonebookDetails = async (req, res) => {
     if (!phonebook) throw new Error("Your update was not successfull");
 
     res.json(phonebook);
-  } catch (error) {
-    res.status(400).json(error);
+  } catch (err) {
+    res.status(400).json({ err });
   }
 };
 

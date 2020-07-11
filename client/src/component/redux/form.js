@@ -1,9 +1,8 @@
 export const InitialPhonebookDetail = {
-  // _id: "",
-  name: "",
+  name: "dfdsffsd",
   dob: "",
   mobile: "",
-  alternate_mobile: "",
+  alternate_mobile: "456456",
   email: "",
   alternate_email: "",
 };

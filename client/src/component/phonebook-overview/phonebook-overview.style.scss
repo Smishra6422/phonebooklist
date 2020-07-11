@@ -1,5 +1,10 @@
-.searchBar {
+.searchBar > input {
   padding: 15px;
+}
+
+.edit-buttons > div {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .fa-envelope {
@@ -11,4 +16,61 @@
   color: #111 !important;
   font-size: 1.5rem;
   margin-right: 7px;
+}
+
+.mobile-email-container {
+  .mobile-number-container,
+  .email-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+}
+
+@media (min-width: 65rem) {
+  .phonebook-details {
+    padding: 0 !important;
+
+    .button-dob-container {
+      display: flex;
+
+      .dob,
+      .edit-buttons {
+        width: 50%;
+      }
+    }
+    .mobile-email-container {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+}
+
+@media (max-width: 65rem) {
+  .button-dob-container > .dob {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .list-overview {
+    .phonebook-details {
+      padding: 0;
+
+      .button-dob-container > .dob {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .mobile-email-container {
+        p {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
 }

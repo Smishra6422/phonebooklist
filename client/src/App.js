@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 import PhonebookLists from "./component/phonebook-lists/phonebook-lists.component";
@@ -18,7 +17,7 @@ function App() {
         <Route exact path="/" component={PhonebookLists} />
         <Route exact path="/addphonebook" component={AddPhonebookList} />
         <Route exact path="/addphonebook/:id" component={UpdatePhonebookList} />
-        <Route exact path="/aboutus" component={AboutUsPage} />
+        <Route exact path="/about" component={AboutUsPage} />
       </Switch>
       <FooterPage />
     </div>

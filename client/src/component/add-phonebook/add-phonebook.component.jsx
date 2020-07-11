@@ -6,7 +6,7 @@ import "./add-phonebook.style.scss";
 
 const AddPhonebookList = ({ fetchAddPhonebookListStart, history }) => {
   return (
-    <div className="phonebook-container">
+    <div className="add-phonebook-container">
       <div className="phonebook-heading">
         <h3 style={{ marginTop: "0" }}>RM-PHONEBOOK</h3>
       </div>
@@ -19,7 +19,6 @@ const AddPhonebookList = ({ fetchAddPhonebookListStart, history }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  // resetPhonebookForm: () => dispatch(actions.reset("phonebook")),
   fetchAddPhonebookListStart: (phonebookData) =>
     dispatch(fetchAddPhonebookListStart(phonebookData)),
 });

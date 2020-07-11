@@ -1,4 +1,4 @@
-// require("dotenv").config();
+require("dotenv").config();
 
 const express = require("express");
 const app = express();
@@ -9,8 +9,7 @@ const phonebookRoutes = require("./routes/phonebook");
 const path = require("path");
 
 //DB Connection
-const MONGODB_URI =
-  "mongodb+srv://taskapp:MishrA6422@cluster0-fivla.mongodb.net/phonebook";
+const MONGODB_URI = process.env.MONGODB_URI;
 mongoose
   .connect(MONGODB_URI, {
     useUnifiedTopology: true,

@@ -1,4 +1,8 @@
 .phonebook-items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   .card {
     margin-bottom: 1rem !important;
 
@@ -26,6 +30,7 @@
 
 .list-pagination-container {
   width: 100%;
+  margin: 0;
 
   .paginations {
     width: 100%;

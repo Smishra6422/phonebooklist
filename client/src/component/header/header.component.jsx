@@ -1,51 +1,61 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./header.style.scss";
 import {
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarNav,
-  MDBNavItem,
-  MDBNavbarToggler,
-  MDBCollapse,
-} from "mdbreact";
-import { BrowserRouter as Router } from "react-router-dom";
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+} from "reactstrap";
+import { BrowserRouter as Router, withRouter, Link } from "react-router-dom";
 
-class Header extends Component {
-  state = {
-    isOpen: false,
-  };
-
-  toggleCollapse = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
-
-  render() {
-    return (
-      <Router>
-        <MDBNavbar color="default-color" dark expand="md">
-          <MDBNavbarBrand>
-            <strong className="white-text">
-              <a href="/">Phonebook</a>
-            </strong>
-          </MDBNavbarBrand>
-          <MDBNavbarToggler onClick={this.toggleCollapse} />
-          <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-            <MDBNavbarNav left>
-              <MDBNavItem active>
-                <a href="/">Home</a>
-              </MDBNavItem>
-              <MDBNavItem>
-                <a href="/addphonebook">Add Phonebook</a>
-              </MDBNavItem>
-              <MDBNavItem>
-                <a href="/aboutus">About Us</a>
-              </MDBNavItem>
-            </MDBNavbarNav>
-          </MDBCollapse>
-        </MDBNavbar>
-      </Router>
-    );
+const currentTab = (history, path) => {
+  if (history.location.pathname === path) {
+    return { color: "#ffffff" };
+  } else {
+    return { color: "#111111" };
   }
-}
+};
 
-export default Header;
+const Header = ({ history }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(!isOpen);
+
+  return (
+    <div className="navbar-container">
+      <Navbar color="" dark expand="md">
+        <NavbarBrand href="/">Phone-book</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <hr />
+          <Nav navbar>
+            <NavItem>
+              <NavLink style={currentTab(history, "/")} href="/">
+                Home
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                style={currentTab(history, "/addphonebook")}
+                href="/addphonebook"
+              >
+                Add Phonebook
+              </NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink style={currentTab(history, "/about")} href="/about">
+                About Me
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Navbar>
+    </div>
+  );
+};
+
+export default withRouter(Header);

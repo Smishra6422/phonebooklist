@@ -1,14 +1,18 @@
-.phonebook-container {
+.update-phonebook-container {
+  position: relative;
+  min-height: 26rem;
+  width: 50%;
+  left: 0;
   display: flex;
   flex-direction: column;
-  left: 25%;
-  width: 45rem;
-  position: relative;
+  justify-content: center;
+  align-items: center;
   border: 2px solid #4285f4;
   margin-top: 3rem;
   padding: 2rem;
 
   .phonebook-heading {
+    width: 100%;
     background: #4285f4;
     padding: 0.5rem 1rem;
     text-align: left;
@@ -19,5 +23,12 @@
     position: relative;
     width: 80%;
     margin: auto;
+  }
+}
+
+@media (max-width: 48rem) {
+  .update-phonebook-container {
+    width: 95%;
+    padding: 0.7rem;
   }
 }

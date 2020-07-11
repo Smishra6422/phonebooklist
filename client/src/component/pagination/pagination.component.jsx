@@ -11,7 +11,7 @@ const Pagination = ({ totalLists, listPerPage, paginate }) => {
       <ul>
         {pageNumbers.map((page) => (
           <li key={page}>
-            <a onClick={() => paginate(page)} href="#">
+            <a onClick={() => paginate(page)} href="/#">
               {page}
             </a>
           </li>

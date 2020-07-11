@@ -1,227 +1,253 @@
 import React from "react";
-import { Button, Row, Col, Label } from "reactstrap";
-
-import { Control, Form, Errors } from "react-redux-form";
-
+import { connect } from "react-redux";
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import "./form.style.scss";
 
-const required = (val) => val && val.length;
-const maxLength = (len) => (val) => !val || val.length <= len;
-const minLength = (len) => (val) => val && val.length >= len;
-const isNumber = (val) => !isNaN(Number(val));
-const validEmail = (val) =>
-  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
-
 class FormContainer extends React.Component {
-  handleSubmit = (values) => {
-    if (this.props.update) {
-      this.props.updatePhonebookLists({
-        history: this.props.history,
-        _id: this.props.match.params.id,
-        name: values.name,
-        dob: values.dob,
-        mobile: values.mobile,
-        alternate_mobile: values.alternate_mobile,
-        email: values.email,
-        alternate_email: values.alternate_email,
+  constructor(props) {
+    super(props);
+    this.singlePhonebook = "";
+    if (props.phonebookLists) {
+      this.singlePhonebook = props.phonebookLists.find(
+        (phonebook) => phonebook._id == props.match.params.id
+      );
+    }
+    this.state = {
+      name: this.singlePhonebook.name || "",
+      dob: this.singlePhonebook.dob || "",
+      mobile: this.singlePhonebook.mobile || "",
+      alternate_mobile: this.singlePhonebook.alternate_mobile || "",
+      email: this.singlePhonebook.email || "",
+      alternate_email: this.singlePhonebook.alternate_email || "",
+
+      invalidName: true,
+      invalidEmail: true,
+      invalidMobile: true,
+
+      errName: "",
+      errMobile: "",
+      errAlternateMobile: "",
+      errEmail: "",
+      errAlternateEmail: "",
+    };
+  }
+
+  validateName = (name) => {
+    if (name.length < 3 || name.length > 15) {
+      this.setState({
+        errName: "Please enter name between 3-15 character",
+        invalidName: true,
       });
     } else {
-      this.props.fetchAddPhonebookListStart({
-        history: this.props.history,
-        name: values.name,
-        dob: values.dob,
-        mobile: values.mobile,
-        alternate_mobile: values.alternate_mobile,
-        email: values.email,
-        alternate_email: values.alternate_email,
+      this.setState({
+        errName: "",
+        invalidName: false,
       });
     }
   };
 
-  render() {
-    const { phonebookLists, match, update, history } = this.props;
-    console.log(history);
-    let singlePhonebook = "";
-    if (phonebookLists) {
-      singlePhonebook = phonebookLists.find(
-        (phonebook) => phonebook._id == match.params.id
-      );
+  validateEmail = (email, alternateEmail) => {
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+      this.setState({ errEmail: "Invalid Email", invalidEmail: true });
+    } else {
+      this.setState({ errEmail: "", invalidEmail: false });
     }
+    if (alternateEmail.length > 0) {
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+        this.setState({
+          errAlternateEmail: "Invalid Alternate Email",
+          invalidForm: true,
+        });
+      }
+    } else {
+      this.setState({
+        errAlternateEmail: "",
+        invalidForm: false,
+      });
+    }
+  };
+
+  validateMobile = (mobile, alternateMobile) => {
+    if (!/(91)[6-9][0-9]{9}$/.test(mobile)) {
+      this.setState({
+        errMobile: "Please enter 10 digit number with 91 code",
+        invalidMobile: true,
+      });
+    } else {
+      this.setState({
+        errMobile: "",
+        invalidMobile: false,
+      });
+    }
+    if (alternateMobile.length > 0) {
+      if (!/(91)[6789][0-9]{9}$/i.test(alternateMobile)) {
+        this.setState({
+          errAlternateMobile: "Please enter 10 digit number with 91 code",
+          invalidForm: true,
+        });
+      }
+    } else {
+      this.setState({
+        errAlternateMobile: "",
+        invalidForm: false,
+      });
+    }
+  };
+
+  handleSubmit = async (event) => {
+    const {
+      invalidName,
+      invalidEmail,
+      invalidMobile,
+      name,
+      dob,
+      email,
+      mobile,
+      alternate_email,
+      alternate_mobile,
+    } = this.state;
+    event.preventDefault();
+
+    if (
+      invalidName === false &&
+      invalidEmail === false &&
+      invalidMobile === false
+    ) {
+      if (this.props.update) {
+        this.props.updatePhonebookLists({
+          history: this.props.history,
+          _id: this.props.match.params.id,
+          name: name,
+          dob: dob,
+          mobile: mobile,
+          alternate_mobile: alternate_mobile,
+          email: email,
+          alternate_email: alternate_email,
+        });
+      } else {
+        this.props.fetchAddPhonebookListStart({
+          history: this.props.history,
+          name: name,
+          dob: dob,
+          mobile: mobile,
+          alternate_mobile: alternate_mobile,
+          email: email,
+          alternate_email: alternate_email,
+        });
+      }
+    }
+  };
+
+  handleChange = (event) => {
+    const { name, value } = event.target;
+
+    this.setState({ [name]: value }, () => {
+      this.validateName(this.state.name);
+      this.validateEmail(this.state.email, this.state.alternate_email);
+      this.validateMobile(this.state.mobile, this.state.alternate_mobile);
+    });
+  };
+
+  render() {
+    const { phonebookLists, match, update } = this.props;
+    const {
+      errName,
+      errMobile,
+      errAlternateMobile,
+      errEmail,
+      errAlternateEmail,
+      name,
+      dob,
+      email,
+      alternate_email,
+      mobile,
+      alternate_mobile,
+    } = this.state;
 
     return (
       <div className="container">
         <div className="row">
-          <Form
-            model="phonebook"
-            onSubmit={(values) => this.handleSubmit(values)}
-          >
-            <Row className="form-group">
-              <Label htmlFor="name" md={4}>
-                Your Name
-              </Label>
-              <Col md={8}>
-                <Control.text
-                  model=".name"
-                  id="name"
-                  name="name"
-                  placeholder="Your Name"
-                  className="form-control"
-                  value={singlePhonebook.name}
-                  validators={{
-                    required,
-                    minLength: minLength(3),
-                    maxLength: maxLength(15),
-                  }}
-                />
-                <Errors
-                  className="text-danger"
-                  model=".name"
-                  show="touched"
-                  messages={{
-                    required: "Required",
-                    minLength: "Must be greater than 2 characters",
-                    maxLength: "Must be 15 characters or less",
-                  }}
-                />
-              </Col>
-            </Row>
+          <Form onSubmit={this.handleSubmit}>
+            <FormGroup>
+              <Label for="exampleEmail">Name</Label>
+              <Input
+                type="text"
+                name="name"
+                id="exampleEmail"
+                placeholder="Enter Name"
+                value={name}
+                onChange={this.handleChange}
+                required="true"
+              />
+            </FormGroup>
+            <p style={{ color: "red" }}>{errName}</p>
+            <FormGroup>
+              <Label for="exampleEmail">D.O.B</Label>
+              <Input
+                type="date"
+                name="dob"
+                id="exampleEmail"
+                placeholder="Enter D.O.B"
+                value={dob}
+                onChange={this.handleChange}
+                required="true"
+              />
+            </FormGroup>
 
-            <Row className="form-group">
-              <Label htmlFor="dob" md={4}>
-                D.O.B
-              </Label>
-              <Col md={8}>
-                <Control.text
-                  type="date"
-                  model=".dob"
-                  id="dob"
-                  name="dob"
-                  placeholder="Enetr D.O.B"
-                  className="form-control"
-                  value={singlePhonebook.dob}
-                />
-              </Col>
-            </Row>
-
-            <Row className="form-group">
-              <Label htmlFor="mobile" md={4}>
-                Mobile
-              </Label>
-              <Col md={8}>
-                <Control.text
-                  model=".mobile"
-                  id="mobile"
-                  name="mobile"
-                  placeholder="Enter Mobile Number"
-                  className="form-control"
-                  value={singlePhonebook.mobile}
-                  validators={{
-                    required,
-                    minLength: minLength(3),
-                    maxLength: maxLength(15),
-                    isNumber,
-                  }}
-                />
-                <Errors
-                  className="text-danger"
-                  model=".mobile"
-                  show="touched"
-                  messages={{
-                    required: "Required",
-                    minLength: "Must be greater than 2 numbers",
-                    maxLength: "Must be 15 numbers or less",
-                    isNumber: "Must be a number",
-                  }}
-                />
-              </Col>
-            </Row>
-
-            <Row className="form-group">
-              <Label htmlFor="alternate_mobile" md={4}>
-                Alternate Mobile
-              </Label>
-              <Col md={8}>
-                <Control.text
-                  model=".alternate_mobile"
-                  id="alternate_mobile"
-                  name="alternate_mobile"
-                  placeholder="Enter Alternate Mobile Number"
-                  className="form-control"
-                  value={singlePhonebook.alternate_mobile}
-                  // validators={{
-                  //   minLength: minLength(3),
-                  //   maxLength: maxLength(15),
-                  //   isNumber,
-                  // }}
-                />
-              </Col>
-            </Row>
-
-            <Row className="form-group">
-              <Label htmlFor="email" md={4}>
-                Email
-              </Label>
-              <Col md={8}>
-                <Control.text
-                  model=".email"
-                  id="email"
-                  name="email"
-                  placeholder="Enter Your Email"
-                  className="form-control"
-                  value={singlePhonebook.email}
-                  validators={{
-                    required,
-                    validEmail,
-                  }}
-                />
-                <Errors
-                  className="text-danger"
-                  model=".email"
-                  show="touched"
-                  messages={{
-                    required: "Required",
-                    validEmail: "Invalid Email Address",
-                  }}
-                />
-              </Col>
-            </Row>
-
-            <Row className="form-group">
-              <Label htmlFor="alternate_email" md={4}>
-                Alternate Email
-              </Label>
-              <Col md={8}>
-                <Control.text
-                  model=".alternate_email"
-                  id="alternate_email"
-                  name="alternate_email"
-                  placeholder="Enter Your Email"
-                  className="form-control"
-                  value={singlePhonebook.alternate_email}
-                  // validators={{
-                  //   required,
-                  //   validEmail,
-                  // }}
-                />
-              </Col>
-            </Row>
-
+            <FormGroup>
+              <Label for="exampleEmail">Mobile</Label>
+              <Input
+                type="mobile"
+                name="mobile"
+                id="exampleEmail"
+                placeholder="Enter Mobile"
+                value={mobile}
+                onChange={this.handleChange}
+                required="true"
+              />
+            </FormGroup>
+            <p style={{ color: "red" }}>{errMobile}</p>
+            <FormGroup>
+              <Label for="exampleEmail">Alternate Mobile</Label>
+              <Input
+                type="text"
+                name="alternate_mobile"
+                id="exampleEmail"
+                placeholder="Enter Alternate Mobile"
+                value={alternate_mobile}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <p style={{ color: "red" }}>{errAlternateMobile}</p>
+            <FormGroup>
+              <Label for="exampleEmail">Email</Label>
+              <Input
+                type="email"
+                name="email"
+                id="exampleEmail"
+                placeholder="Enter Email"
+                value={email}
+                onChange={this.handleChange}
+                required="true"
+              />
+            </FormGroup>
+            <p style={{ color: "red" }}>{errEmail}</p>
+            <FormGroup>
+              <Label for="exampleEmail">Alternate Email</Label>
+              <Input
+                type="email"
+                name="alternate_email"
+                id="exampleEmail"
+                placeholder="Enter Alternate Email"
+                value={alternate_email}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <p style={{ color: "red" }}>{errAlternateEmail}</p>
             {update ? (
-              <Row className="form-group">
-                <Col md={{ size: 10, offset: 2 }}>
-                  <Button type="submit" color="warning">
-                    Update Phonebook Detail
-                  </Button>
-                </Col>
-              </Row>
+              <Button color="primary">Update PhoneBook</Button>
             ) : (
-              <Row className="form-group">
-                <Col md={{ size: 10, offset: 2 }}>
-                  <Button type="submit" color="primary">
-                    Add Phonebook Detail
-                  </Button>
-                </Col>
-              </Row>
+              <Button color="primary">Add PhoneBook</Button>
             )}
           </Form>
         </div>
@@ -230,4 +256,12 @@ class FormContainer extends React.Component {
   }
 }
 
-export default FormContainer;
+// const mapStateToProps = (state) => ({
+//   initialData: { ...state.phonebook, name: InitialPhonebookDetail.name },
+// });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   updateInitialState: (data) => dispatch(updateInitialState(data)),
+// });
+
+export default connect(null, null)(FormContainer);

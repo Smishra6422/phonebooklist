@@ -30,15 +30,22 @@ export function* fetchPhonebookListAsync() {
 
 export function* fetchAddPhonebookAsync({ payload }) {
   try {
-    // console.log(payload);
     const { history, ...otherProps } = payload;
     const fetchResult = yield call(axios.post, "/api/addphonebook", otherProps);
-    // console.log(fetchResult.data);
 
-    //TODO Handle Error and Alert it ...
-    yield call(history.push, "/");
-    yield put(fetchAddPhonebookListSuccess());
-    yield put(actions.reset("phonebook"));
+    if (fetchResult.data.err) {
+      const ERROR = fetchResult.data.err.keyValue;
+
+      if (ERROR.email) {
+        alert(ERROR.email + " already exist please try with a different one");
+      } else if (ERROR.mobile) {
+        alert(ERROR.mobile + " already exist please try with a different one");
+      }
+    } else {
+      yield put(actions.reset("phonebook"));
+      yield call(history.push, "/");
+      yield put(fetchAddPhonebookListSuccess());
+    }
   } catch (error) {
     yield put(fetchAddPhonebookListFailure(error));
   }
@@ -46,12 +53,10 @@ export function* fetchAddPhonebookAsync({ payload }) {
 
 export function* fetchDeletePhonebookAsync({ payload }) {
   try {
-    // console.log(payload);
     const fetchResult = yield call(
       axios.post,
       "/api/deletephonebook/" + payload
     );
-    // console.log(fetchResult.data);
 
     //TODO Handle Error and Alert it ...
 
@@ -117,7 +122,7 @@ export function* fetchUpdatePhonebookStart() {
   );
 }
 
-export function* jobSaga() {
+export function* phonebookSaga() {
   yield all([
     call(fetchPhonebookListStarts),
     call(fetchAddPhonebookStart),

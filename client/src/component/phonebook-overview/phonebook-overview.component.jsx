@@ -1,9 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  fetchDeletePhonebookListStart,
-  fetchAddPhonebookListStart,
-} from "../redux/phonebook/phonebook-action";
+import { fetchDeletePhonebookListStart } from "../redux/phonebook/phonebook-action";
 import { withRouter } from "react-router-dom";
 
 import {
@@ -11,8 +8,6 @@ import {
   MDBCollapse,
   MDBCard,
   MDBCardBody,
-  MDBCol,
-  MDBRow,
   MDBBtn,
 } from "mdbreact";
 import "./phonebook-overview.style.scss";
@@ -48,10 +43,9 @@ class PhonebookOverview extends React.Component {
     const filteredPhonebookList = phonebboLists.filter((phonebook) =>
       phonebook.name.toLowerCase().includes(searchFilter.toLowerCase())
     );
-    console.log(match.path + "shubham");
 
     return (
-      <MDBContainer>
+      <MDBContainer className="list-overview">
         <div className="form-group searchBar">
           <input
             type="search"
@@ -61,15 +55,15 @@ class PhonebookOverview extends React.Component {
             onChange={this.handleChange}
           />
         </div>
-        <MDBContainer className="mt-3">
+        <MDBContainer className="mt-3 phonebook-details">
           {filteredPhonebookList.length !== 0 ? (
             filteredPhonebookList.map((phonebook, index) => (
-              <MDBCard className="mt-3">
+              <MDBCard className="mt-3" key={index}>
                 <div
                   className="phonebook-item-heading"
                   onClick={this.toggleCollapse("collapse" + index + 1)}
                 >
-                  <h5>{phonebook.name}</h5>
+                  <h6>{phonebook.name}</h6>
                   <span>
                     <i
                       className={
@@ -82,65 +76,68 @@ class PhonebookOverview extends React.Component {
                 </div>
                 <MDBCollapse id={"collapse" + index + 1} isOpen={collapseID}>
                   <MDBCardBody>
-                    <MDBRow>
-                      <MDBCol md="4">{phonebook.dob}</MDBCol>
-                      <MDBCol md="4">{""}</MDBCol>
-                      <MDBCol md="4">
-                        <div className="button-container">
-                          <MDBCol md="12">
-                            <MDBBtn
-                              color="primary"
-                              onClick={() => {
-                                history.push(
-                                  match.path + "addphonebook/" + phonebook._id
-                                );
-                              }}
-                            >
-                              Edit
-                            </MDBBtn>
-                            <MDBBtn
-                              color="danger"
-                              onClick={() =>
-                                fetchDeletePhonebookListStart(phonebook._id)
-                              }
-                            >
-                              Delete
-                            </MDBBtn>
-                          </MDBCol>
+                    <div className="button-dob-container">
+                      <div className="dob">
+                        D.O.B : {phonebook.dob ? phonebook.dob : "null"}
+                      </div>
+
+                      <div className="edit-buttons">
+                        <div>
+                          <MDBBtn
+                            color="primary"
+                            onClick={() => {
+                              history.push(
+                                match.path + "addphonebook/" + phonebook._id
+                              );
+                            }}
+                          >
+                            Edit
+                          </MDBBtn>
+                          <MDBBtn
+                            color="danger"
+                            onClick={() =>
+                              fetchDeletePhonebookListStart(phonebook._id)
+                            }
+                          >
+                            Delete
+                          </MDBBtn>
                         </div>
-                      </MDBCol>
-                    </MDBRow>
+                      </div>
+                    </div>
                     <div className="mobile-email-container">
-                      <MDBRow>
-                        <MDBCol md="4">
-                          <p>
-                            <i class="fa fa-mobile"></i>
-                            {phonebook.mobile}
-                          </p>
-                          <p>
-                            {phonebook.alternate_mobile ? (
-                              <i class="fa fa-mobile"></i>
-                            ) : (
-                              ""
-                            )}
-                            {phonebook.alternate_mobile}
-                          </p>
-                        </MDBCol>
-                        <MDBCol md="8">
-                          <p>
-                            <i class="fa fa-envelope"></i>
-                            {phonebook.email}
-                          </p>
-                          <p>
-                            {phonebook.alternate_email ? (
-                              <i class="fa fa-envelope"></i>
-                            ) : (
-                              ""
-                            )}
-                            {phonebook.alternate_email}
-                          </p>
-                        </MDBCol>
-                      </MDBRow>
+                      <div className="mobile-number-container">
+                        <p>
+                          <a href={"tel:" + phonebook.mobile}>
+                            <i className="fa fa-mobile"></i>
+                            <span>{phonebook.mobile}</span>
+                          </a>
+                        </p>
+                        <p>
+                          {phonebook.alternate_mobile ? (
+                            <a href={"tel:" + phonebook.alternate_mobile}>
+                              <i className="fa fa-mobile"></i>
+                              <span>{phonebook.alternate_mobile}</span>
+                            </a>
+                          ) : null}
+                        </p>
+                      </div>
+                      <div className="email-container">
+                        <p>
+                          {" "}
+                          <a href={"mailto:" + phonebook.email}>
+                            <i className="fa fa-envelope"></i>
+                            <span>{phonebook.email}</span>
+                          </a>
+                        </p>
+                        <p>
+                          {phonebook.alternate_email ? (
+                            <a href={"mailto:" + phonebook.alternate_email}>
+                              <i className="fa fa-envelope"></i>
+                              <span>{phonebook.alternate_email}</span>
+                            </a>
+                          ) : null}
+                        </p>
+                      </div>
                     </div>
                   </MDBCardBody>
                 </MDBCollapse>

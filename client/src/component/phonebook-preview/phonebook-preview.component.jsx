@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import "./phonebook-preview.style.scss";
+import Pagination from "../pagination/pagination.component";
 import PhonebookOverview from "../phonebook-overview/phonebook-overview.component";
+import "./phonebook-preview.style.scss";
+import Spinner from "../spinner/spinner.component";
+
+//Redux File
 import {
   selectPhonebookList,
   selectPhonebookListFetching,
 } from "../redux/phonebook/phonebook-selector";
-
 import { fetchPhonebookListStart } from "../redux/phonebook/phonebook-action";
 import { createStructuredSelector } from "reselect";
-import Pagination from "../pagination/pagination.component";
 
+//Functional Component
 const PhonebookPreview = ({
   fetchPhonebookListStart,
   selectPhonebookList,
@@ -31,11 +34,11 @@ const PhonebookPreview = ({
 
   const paginate = (page) => setCurrentPage(page);
   return (
-    <div className="row phonebook-items">
+    <div className=" phonebook-items">
       {isFetchingphonebook !== false ? (
-        <h1>Loading ...</h1>
+        <Spinner />
       ) : (
-        <div className="row list-pagination-container">
+        <div className=" list-pagination-container">
           <PhonebookOverview phonebboLists={currentList} />
           <Pagination
             listPerPage={listPerPage}

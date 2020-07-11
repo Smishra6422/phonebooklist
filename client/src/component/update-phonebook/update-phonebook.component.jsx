@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import FormContainer from "../form/form.component";
-// import { fetchAddPhonebookListStart } from "../redux/phonebook/phonebook-action";
-import { createStructuredSelector } from "reselect";
+import "./update-phonebook.style.scss";
+import Spinner from "../spinner/spinner.component";
 
+//Redux File
+import { createStructuredSelector } from "reselect";
 import {
   selectPhonebookList,
   selectPhonebookListFetching,
@@ -12,8 +14,8 @@ import {
   fetchPhonebookListStart,
   fetchUpdatePhonebookListStart,
 } from "../redux/phonebook/phonebook-action";
-import "./update-phonebook.style.scss";
 
+//Functional Component
 const UpdatePhonebookList = ({
   fetchPhonebookListStart,
   selectPhonebookList,
@@ -26,21 +28,14 @@ const UpdatePhonebookList = ({
     fetchPhonebookListStart();
   }, [fetchPhonebookListStart]);
 
-  //   const singlePhonebook = "";
-  //   if (isFetchingphonebook) {
-  //     // singlePhonebook = selectPhonebookList.filter(
-  //     //   (phonebook) => phonebook._id == match.params.id
-  //     // );
-  //     console.log(singlePhonebook);
-  //   }
   return (
-    <div className="phonebook-container">
+    <div className="update-phonebook-container">
       <div className="phonebook-heading">
         <h3 style={{ marginTop: "0" }}>RM-PHONEBOOK </h3>
       </div>
 
       {isFetchingphonebook ? (
-        <h1>Loading ...</h1>
+        <Spinner />
       ) : (
         <FormContainer
           phonebookLists={selectPhonebookList}
@@ -55,7 +50,6 @@ const UpdatePhonebookList = ({
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  // resetPhonebookForm: () => dispatch(actions.reset("phonebook")),
   fetchUpdatePhonebookListStart: (updatePhonebookData) =>
     dispatch(fetchUpdatePhonebookListStart(updatePhonebookData)),
   fetchPhonebookListStart: () => dispatch(fetchPhonebookListStart()),

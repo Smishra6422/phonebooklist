@@ -1,9 +1,35 @@
-.navbar {
+.navbar-container {
   background: #4285f4 !important;
+  position: relative;
+  width: 100%;
 
-  a {
-    color: #fff !important;
-    margin-left: 1rem;
-    text-decoration: none !important;
+  .nav-item {
+    &:hover {
+      border-bottom: 1.2px solid #ffffff;
+    }
+    .nav-link {
+      font-size: 1.3rem;
+      margin-right: 1rem;
+    }
+  }
+
+  .navbar-collapse > hr {
+    display: none;
+  }
+
+  @media (min-width: 48rem) {
+    .navbar-nav {
+      position: absolute;
+      right: 2rem;
+    }
+  }
+
+  @media (max-width: 47.5rem) {
+    .navbar-collapse > hr {
+      display: block;
+      width: 100%;
+      background-color: #fff;
+      margin: 0.5rem 0 0.3rem 0;
+    }
   }
 }
