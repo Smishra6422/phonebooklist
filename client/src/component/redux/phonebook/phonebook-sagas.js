@@ -1,8 +1,6 @@
 import { takeLatest, put, call, all } from "redux-saga/effects";
 import axios from "axios";
 
-import { actions } from "react-redux-form";
-
 import { phonebookTypes } from "./phonebook-types";
 
 import {
@@ -42,7 +40,6 @@ export function* fetchAddPhonebookAsync({ payload }) {
         alert(ERROR.mobile + " already exist please try with a different one");
       }
     } else {
-      yield put(actions.reset("phonebook"));
       yield call(history.push, "/");
       yield put(fetchAddPhonebookListSuccess());
     }
@@ -58,11 +55,15 @@ export function* fetchDeletePhonebookAsync({ payload }) {
       "/api/deletephonebook/" + payload
     );
 
-    //TODO Handle Error and Alert it ...
-
-    yield put(fetchDeletePhonebookListSuccess());
-    yield call(fetchPhonebookListRestart);
+    if (fetchResult.data) {
+      alert(
+        `Phonebook detail with email ${fetchResult.data.email} was succesfully deleted`
+      );
+      yield put(fetchDeletePhonebookListSuccess());
+      yield call(fetchPhonebookListRestart);
+    }
   } catch (error) {
+    alert(JSON.stringify(error.response.data.error, undefined, 2));
     yield put(fetchDeletePhonebookListFailure(error));
   }
 }
@@ -76,12 +77,13 @@ export function* fetchUpdatePhonebookAsync({ payload }) {
       otherProps
     );
 
-    //TODO Handle Error and Alert it ...
-
-    yield call(history.push, "/");
-    yield put(fetchUpdatePhonebookListSuccess());
-    yield put(actions.reset("phonebook"));
+    if (fetchResult.data) {
+      alert("Your update was successful");
+      yield call(history.push, "/");
+      yield put(fetchUpdatePhonebookListSuccess());
+    }
   } catch (error) {
+    alert(JSON.stringify(error.response.data.error, undefined, 2));
     yield put(fetchUpdatePhonebookListFailure(error));
   }
 }

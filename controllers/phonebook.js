@@ -45,26 +45,24 @@ exports.addPhonebookDetails = (req, res) => {
 
 exports.updatePhonebookDetails = async (req, res) => {
   try {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //   return res.status(422).json({ errors: errors.array() });
-    // }
-
     const phonebook = await Phonebook.findByIdAndUpdate(
       { _id: req.phonebookdetail._id },
       { $set: req.body },
-      { new: true, useFindAndModify: false }
+      { useFindAndModify: false }
     );
     if (!phonebook) throw new Error("Your update was not successfull");
 
     res.json(phonebook);
-  } catch (err) {
-    res.status(400).json({ err });
+  } catch (error) {
+    console.log(JSON.stringify(error, undefined, 2));
+    res.status(400).json({
+      error:
+        "Your update was not successfull. Please check your Email or Mobile or Internet",
+    });
   }
 };
 
 exports.deletePhonebookDetail = async (req, res) => {
-  //   console.log(req.phonbookDetail._id + "hh");
   try {
     const phonebook = await Phonebook.findByIdAndDelete({
       _id: req.phonebookdetail._id,
@@ -72,6 +70,11 @@ exports.deletePhonebookDetail = async (req, res) => {
     if (!phonebook) throw new Error("Delete was not successful !");
     res.json(phonebook);
   } catch (error) {
-    res.status(400).json({ error: error.errmsg });
+    res
+      .status(400)
+      .json({
+        error:
+          "Delete was not successful !. Please check you internet connection ",
+      });
   }
 };

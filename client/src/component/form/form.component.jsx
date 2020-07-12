@@ -177,7 +177,7 @@ class FormContainer extends React.Component {
                 placeholder="Enter Name"
                 value={name}
                 onChange={this.handleChange}
-                required="true"
+                required={true}
               />
             </FormGroup>
             <p style={{ color: "red" }}>{errName}</p>
@@ -190,7 +190,7 @@ class FormContainer extends React.Component {
                 placeholder="Enter D.O.B"
                 value={dob}
                 onChange={this.handleChange}
-                required="true"
+                required={true}
               />
             </FormGroup>
 
@@ -203,7 +203,8 @@ class FormContainer extends React.Component {
                 placeholder="Enter Mobile"
                 value={mobile}
                 onChange={this.handleChange}
-                required="true"
+                required={true}
+                inputMode="tel"
               />
             </FormGroup>
             <p style={{ color: "red" }}>{errMobile}</p>
@@ -216,6 +217,7 @@ class FormContainer extends React.Component {
                 placeholder="Enter Alternate Mobile"
                 value={alternate_mobile}
                 onChange={this.handleChange}
+                inputMode="tel"
               />
             </FormGroup>
             <p style={{ color: "red" }}>{errAlternateMobile}</p>
@@ -228,7 +230,8 @@ class FormContainer extends React.Component {
                 placeholder="Enter Email"
                 value={email}
                 onChange={this.handleChange}
-                required="true"
+                required={true}
+                inputMode="email"
               />
             </FormGroup>
             <p style={{ color: "red" }}>{errEmail}</p>
@@ -241,6 +244,7 @@ class FormContainer extends React.Component {
                 placeholder="Enter Alternate Email"
                 value={alternate_email}
                 onChange={this.handleChange}
+                inputMode="email"
               />
             </FormGroup>
             <p style={{ color: "red" }}>{errAlternateEmail}</p>
